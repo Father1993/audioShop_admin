@@ -16,7 +16,6 @@ export default {
     };
     const url = `${apiUrl}/${resource}/list?${stringify(query)}`;
     const { data } = await axios.get(url);
-    console.log(data);
 
     return {
       data: data.items,

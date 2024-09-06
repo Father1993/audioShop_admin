@@ -5,9 +5,13 @@ import {
   EditGuesser,
   ShowGuesser,
 } from "react-admin";
-import { Layout } from "./Layout";
 import { authProvider } from "./authProvider";
+import dataProvider from "./dataProvider";
+import { GoodsList } from "../components/GoodsList/GoodsList";
+import { ProductShow } from "../components/ProductShow/ProductShow";
 
 export const App = () => (
-  <Admin layout={Layout} authProvider={authProvider}></Admin>
+  <Admin authProvider={authProvider} dataProvider={dataProvider}>
+    <Resource name="goods" list={GoodsList} show={ProductShow} />
+  </Admin>
 );
