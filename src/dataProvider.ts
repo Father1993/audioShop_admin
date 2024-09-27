@@ -71,12 +71,16 @@ export default {
   },
 
   update: async (resource, params) => {
-    const url = `${apiUrl}/${resource}/${params.id}`;
-    const { json } = await httpClient(url, {
-      method: "PUT",
-      body: JSON.stringify(params.data),
+    const url = `${apiUrl}/${resource}/edit/${params.id}`;
+    const { data } = await axios.put(url, {
+      id: params.id,
+      category: resource,
+      ...params.data,
     });
-    return { data: json };
+
+    return {
+      data,
+    };
   },
 
   updateMany: async (resource, params) => {

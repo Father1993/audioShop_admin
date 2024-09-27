@@ -6,6 +6,9 @@ import {
   RichTextField,
   ImageField,
   DeleteButton,
+  NumberField,
+  BooleanField,
+  ArrayField,
 } from "react-admin";
 import "./index.css";
 
@@ -19,7 +22,20 @@ export const ProductShow = () => {
         <ImageField source="images" src="url" title="desc" />
         <TextField source="name" />
         <TextField source="category" />
+        <TextField source="type" />
+        <TextField source="companyName" />
+        <TextField source="model" />
+        <NumberField source="price" />
+        <TextField source="productSizes" />
         <RichTextField source="description" />
+        <TextField source="installationType" />
+        <TextField source="collections" />
+        <TextField source="inStock" />
+        <BooleanField source="isBestseller" />
+        <BooleanField source="isNew" />
+        <NumberField source="popularity" />
+        <TextField source="vendorCode" />
+        <TextField source="characteristics" />
       </SimpleShowLayout>
     </Show>
   );

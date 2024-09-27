@@ -3,6 +3,7 @@ import React from "react";
 import {
   Datagrid,
   Identifier,
+  ImageField,
   List,
   NumberField,
   RaRecord,
@@ -21,11 +22,15 @@ export const GoodsList = () => {
   return (
     <List>
       <Datagrid rowClick={handleRowClick}>
-        <TextField source="id" />
+        <TextField source="name" />
         <TextField source="category" />
+        <TextField source="companyName" />
+        <TextField source="model" />
         <TextField source="type" />
         <NumberField source="price" />
-        <TextField source="name" />
+        <TextField source="inStock" />
+        <ImageField source="images" />
+        <TextField source="id" />
       </Datagrid>
     </List>
   );
