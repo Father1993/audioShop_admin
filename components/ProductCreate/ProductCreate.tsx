@@ -1,46 +1,62 @@
 import React from "react";
 import {
-  Edit,
+  Create,
   SimpleForm,
   TextInput,
   NumberInput,
-  useNotify,
-  useRefresh,
-  useRedirect,
   BooleanInput,
-  ArrayInput,
-  SimpleFormIterator,
   SelectInput,
+  useNotify,
+  useRedirect,
+  ImageInput,
+  ImageField,
 } from "react-admin";
 
-const ProductEdit = (props: any) => {
+const ProductCreate = (props: any) => {
   const notify = useNotify();
-  const refresh = useRefresh();
   const redirect = useRedirect();
 
   const onSuccess = () => {
-    notify("Product updated successfully");
-    refresh();
+    notify("Продукт успешно создан");
     redirect("list", "goods");
   };
 
   return (
-    <Edit {...props} onSuccess={onSuccess}>
+    <Create {...props} onSuccess={onSuccess}>
       <SimpleForm>
-        <TextInput source="id" disabled />
-        <TextInput source="name" label="Название" />
-        <TextInput source="category" label="Категория" disabled />
+        <TextInput required source="name" label="Название" />
         <SelectInput
+          required
+          source="category"
+          label="Категория"
+          choices={[
+            { id: "audio", name: "Аудио", value: "audio" },
+            { id: "subwoofer", name: "Сабвуферы", value: "subwoofer" },
+            { id: "accessories", name: "Аксессуары", value: "accessories" },
+            { id: "speakers", name: "Колонки", value: "speakers" },
+          ]}
+          required
+        />
+        <SelectInput
+          required
           source="type"
           label="Тип"
           choices={[
-            { id: "1din", name: "1DIN" },
-            { id: "2din", name: "2DIN" },
+            { id: "1din", name: "1-DIN" },
+            { id: "2din", name: "2-DIN" },
+            { id: "active", name: "Активный" },
+            { id: "passive", name: "Пассивный" },
+            { id: "coaxial", name: "Коаксиальные" },
+            { id: "component", name: "Компонентные" },
+            { id: "fullRange", name: "Широкополосные" },
+            { id: "recorder", name: "Видео-регистраторы" },
+            { id: "charger", name: "Зарядки" },
+            { id: "fastening", name: "Держатели" },
           ]}
         />
         <TextInput source="companyName" label="Производитель" />
         <TextInput source="model" label="Модель" />
-        <NumberInput source="price" label="Цена" />
+        <NumberInput required source="price" label="Цена" />
         <TextInput source="description" label="Описание" multiline />
         <SelectInput
           source="installationType"
@@ -87,11 +103,17 @@ const ProductEdit = (props: any) => {
         />
 
         {/* Изображения */}
-        <TextInput source="images.0" label="Изображение 1" />
-        <TextInput source="images.1" label="Изображение 2" />
+        <ImageInput
+          source="images"
+          label="Изображения"
+          multiple
+          accept="image/*"
+        >
+          <ImageField source="src" title="title" />
+        </ImageInput>
       </SimpleForm>
-    </Edit>
+    </Create>
   );
 };
 
-export default ProductEdit;
+export default ProductCreate;

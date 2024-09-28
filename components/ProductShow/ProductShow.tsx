@@ -19,7 +19,9 @@ export const ProductShow = () => {
         <div className="show-actions">
           <DeleteButton />
         </div>
-        <ImageField source="images" src="url" title="desc" />
+        <ArrayField source="images">
+          <ImageField source="url" title="title" />
+        </ArrayField>
         <TextField source="name" />
         <TextField source="category" />
         <TextField source="type" />

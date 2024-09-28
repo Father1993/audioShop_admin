@@ -63,24 +63,51 @@ export default {
   },
 
   create: async (resource, params) => {
-    const { json } = await httpClient(`${apiUrl}/${resource}`, {
-      method: "POST",
-      body: JSON.stringify(params.data),
-    });
-    return { data: json };
+    try {
+      const url = `${apiUrl}/${resource}/create`;
+
+      // Преобразуем id в value для категории
+      const category = params.data.category.value || params.data.category;
+
+      // Добавляем категорию к данным продукта
+      const productData = {
+        ...params.data,
+        category: category, // используем преобразованное значение категории
+      };
+
+      const { data } = await axios.post(url, productData);
+
+      if (!data || !data.id) {
+        throw new Error("Сервер не вернул ID созданного продукта");
+      }
+
+      return {
+        data: { ...productData, id: data.id },
+      };
+    } catch (error) {
+      console.error("Ошибка при создании данных:", error);
+      throw new Error(
+        "Не удалось создать данные. Пожалуйста, попробуйте еще раз.",
+      );
+    }
   },
 
   update: async (resource, params) => {
-    const url = `${apiUrl}/${resource}/edit/${params.id}`;
-    const { data } = await axios.put(url, {
-      id: params.id,
-      category: resource,
-      ...params.data,
-    });
+    try {
+      const url = `${apiUrl}/${resource}/edit/${params.id}`;
+      const { data } = await axios.put(url, {
+        id: params.id,
+        category: resource,
+        ...params.data,
+      });
 
-    return {
-      data,
-    };
+      return { data };
+    } catch (error) {
+      console.error("Ошибка при обновлении данных:", error);
+      throw new Error(
+        "Не удалось обновить данные. Пожалуйста, попробуйте еще раз.",
+      );
+    }
   },
 
   updateMany: async (resource, params) => {
