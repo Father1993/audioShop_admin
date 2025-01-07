@@ -5,7 +5,7 @@ import api from '../api/apiInstance'
 import { USERS_SOURCE_NAME } from '../constants/sourceNames'
 import { CLIENT_ERROR_CODE } from '../constants/statuseCodes'
 import { IUser } from '../types/users'
-import { getCreatedUser } from '../utils/dataProvider'
+import { getCreatedUser, getUpdatedUser } from '../utils/dataProvider'
 
 const httpClient = fetchUtils.fetchJson
 
@@ -85,6 +85,18 @@ export default {
   },
 
   update: async (resource, params) => {
+    if (resource === USERS_SOURCE_NAME) {
+      const user = await getUpdatedUser(params.data as IUser)
+
+      if (user.status === CLIENT_ERROR_CODE) {
+        return Promise.reject(new HttpError(user.message, CLIENT_ERROR_CODE))
+      }
+
+      return {
+        data: user.getUpdatedUser,
+      }
+    }
+
     const url = `/${resource}/${params.id}`
     const { json } = await httpClient(url, {
       method: 'PUT',

@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   DeleteButton,
+  EditButton,
   ImageField,
   Show,
   SimpleShowLayout,
@@ -12,6 +13,7 @@ export const UsersShow = () => (
   <Show
     actions={
       <TopToolbar>
+        <EditButton />
         <DeleteButton />
       </TopToolbar>
     }
