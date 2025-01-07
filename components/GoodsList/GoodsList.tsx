@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React from 'react'
 import {
   Datagrid,
   Identifier,
@@ -8,32 +8,32 @@ import {
   NumberField,
   RaRecord,
   TextField,
-} from "react-admin";
+} from 'react-admin'
 
 export const GoodsList = () => {
   const handleRowClick = (
     id: Identifier,
     resource: string,
-    record: RaRecord,
+    record: RaRecord
   ) => {
-    localStorage.setItem("show", JSON.stringify(record.category));
-    return "show";
-  };
+    localStorage.setItem('show', JSON.stringify(record.category))
+    return 'show'
+  }
   return (
     <List>
       <Datagrid rowClick={handleRowClick}>
-        <TextField source="name" />
-        <TextField source="category" />
-        <TextField source="companyName" />
-        <TextField source="model" />
-        <TextField source="type" />
-        <NumberField source="price" />
-        <TextField source="inStock" />
-        <ImageField source="images" />
-        <TextField source="id" />
+        <TextField source='name' />
+        <TextField source='category' />
+        <TextField source='companyName' />
+        <TextField source='model' />
+        <TextField source='type' />
+        <NumberField source='price' />
+        <TextField source='inStock' />
+        <ImageField source='images' />
+        <TextField source='id' />
       </Datagrid>
     </List>
-  );
-};
+  )
+}
 
-export default GoodsList;
+export default GoodsList

@@ -1,25 +1,28 @@
-import {
-  Admin,
-  Resource,
-  ListGuesser,
-  EditGuesser,
-  ShowGuesser,
-} from "react-admin";
-import { authProvider } from "./authProvider";
-import dataProvider from "./dataProvider";
-import { GoodsList } from "../components/GoodsList/GoodsList";
-import { ProductShow } from "../components/ProductShow/ProductShow";
-import ProductEdit from "../components/ProductEdit/ProductEdit";
-import ProductCreate from "../components/ProductCreate/ProductCreate";
+import { Admin, defaultTheme, Resource } from 'react-admin'
+
+import { UsersCreate } from '../components/Users/UsersCreate/UsersCreate'
+import { UsersList } from '../components/Users/UsersList/UsersList'
+import { UsersShow } from '../components/Users/UsersShow/UsersShow'
+import { USERS_SOURCE_NAME } from '../constants/sourceNames'
+import { authProvider } from './authProvider'
+import dataProvider from './dataProvider'
 
 export const App = () => (
-  <Admin authProvider={authProvider} dataProvider={dataProvider}>
+  <Admin
+    authProvider={authProvider}
+    dataProvider={dataProvider}
+    theme={{
+      ...defaultTheme,
+      palette: {
+        mode: 'dark',
+      },
+    }}
+  >
     <Resource
-      name="goods"
-      list={GoodsList}
-      show={ProductShow}
-      edit={ProductEdit}
-      create={ProductCreate}
+      name={USERS_SOURCE_NAME}
+      list={UsersList}
+      show={UsersShow}
+      create={UsersCreate}
     />
   </Admin>
-);
+)
