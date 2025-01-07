@@ -1,9 +1,11 @@
 import { stringify } from 'query-string'
-import { DataProvider, fetchUtils } from 'react-admin'
+import { DataProvider, fetchUtils, HttpError } from 'react-admin'
 
 import api from '../api/apiInstance'
 import { USERS_SOURCE_NAME } from '../constants/sourceNames'
+import { CLIENT_ERROR_CODE } from '../constants/statuseCodes'
 import { IUser } from '../types/users'
+import { getCreatedUser } from '../utils/dataProvider'
 
 const httpClient = fetchUtils.fetchJson
 
@@ -67,7 +69,13 @@ export default {
     if (resource === USERS_SOURCE_NAME) {
       const user = await getCreatedUser(params.data as IUser)
 
-      return
+      if (user.status === CLIENT_ERROR_CODE) {
+        return Promise.reject(new HttpError(user.message, CLIENT_ERROR_CODE))
+      }
+
+      return {
+        data: user.newUser,
+      }
     }
     const { json } = await httpClient(`/${resource}`, {
       method: 'POST',
