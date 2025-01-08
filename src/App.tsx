@@ -1,7 +1,9 @@
 import { Admin, defaultTheme, Resource } from 'react-admin'
 
 import { AudioCreate } from '../components/Audio/AudioCreate/AudioCreate'
+import { AudioEdit } from '../components/Audio/AudioEdit/AudioEdit'
 import { GoodsList } from '../components/GoodsList/GoodsList'
+import { ProductShow } from '../components/ProductShow/ProductShow'
 import { UsersCreate } from '../components/Users/UsersCreate/UsersCreate'
 import { UsersEdit } from '../components/Users/UsersEdit/UsersEdit'
 import { UsersList } from '../components/Users/UsersList/UsersList'
@@ -28,6 +30,12 @@ export const App = () => (
       create={UsersCreate}
       edit={UsersEdit}
     />
-    <Resource name={AUDIO_SOURCE_NAME} list={GoodsList} create={AudioCreate} />
+    <Resource
+      name={AUDIO_SOURCE_NAME}
+      list={GoodsList}
+      create={AudioCreate}
+      show={ProductShow}
+      edit={AudioEdit}
+    />
   </Admin>
 )

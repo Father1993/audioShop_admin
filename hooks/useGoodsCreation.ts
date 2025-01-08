@@ -19,5 +19,5 @@ export const useGoodsCreation = (types: { id: number; name: string }[]) => {
     }
   }
 
-  return { handleSelectType, maxImagesCount, type }
+  return { handleSelectType, maxImagesCount, type, setType }
 }

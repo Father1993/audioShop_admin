@@ -37,8 +37,41 @@ export default {
       `/admin/one?id=${params.id}&category=${resource}`
     )
 
+    if (resource === USERS_SOURCE_NAME) {
+      return {
+        data,
+      }
+    }
+
+    const isNew = data.isNew ? ['new'] : []
+    const isBestseller = data.isBestseller ? ['bestseller'] : []
+
+    if (Object.values(data.sizes).length) {
+      let sizes: string[] = []
+
+      Object.entries(data.sizes).forEach(([key, value]) => {
+        if (value) {
+          sizes.push(key)
+        }
+      })
+
+      return {
+        data: {
+          ...data,
+          sizes,
+          isNew,
+          isBestseller,
+        },
+      }
+    }
+
     return {
-      data,
+      data: {
+        ...data,
+        sizes: [],
+        isNew,
+        isBestseller,
+      },
     }
   },
 
@@ -129,12 +162,46 @@ export default {
       }
     }
 
-    const url = `/${resource}/${params.id}`
-    const { json } = await httpClient(url, {
-      method: 'PUT',
-      body: JSON.stringify(params.data),
+    const sizes = {} as { [index: string]: string }
+    let newImages: { dataUrl: string; title: string }[] = []
+
+    const rawImages = params.data.images.filter(
+      (img: { rawFile?: File }) => img.rawFile
+    )
+
+    const oldImages = params.data.images.filter(
+      (img: { url?: string }) => img.url
+    )
+
+    if (rawImages.length) {
+      newImages = await getImagesFromRawFile(rawImages)
+    }
+
+    if (params.data.sizes) {
+      SIZES_LIST.forEach(
+        (size) => (sizes[size] = params.data.sizes.includes(size))
+      )
+    }
+
+    const { data } = await api.post('/admin/edit-product', {
+      ...params.data,
+      category: resource,
+      _id: params.data._id,
+      sizes,
+      newImages,
+      oldImages,
+      isNew: !!params.data.isNew?.length,
+      isBestseller: !!params.data.isBestseller?.length,
     })
-    return { data: json }
+
+    return {
+      data: {
+        ...data.updatedItem,
+        sizes: params.data.sizes,
+        isNew: params.data.isNew,
+        isBestseller: params.data.isBestseller,
+      },
+    }
   },
 
   updateMany: async (resource, params) => {
