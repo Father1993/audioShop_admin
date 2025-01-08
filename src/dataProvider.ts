@@ -1,9 +1,16 @@
 import { stringify } from 'query-string'
-import { DataProvider, fetchUtils } from 'react-admin'
+import { DataProvider, fetchUtils, HttpError } from 'react-admin'
 
 import api from '../api/apiInstance'
+import { SIZES_LIST } from '../constants/goods'
 import { USERS_SOURCE_NAME } from '../constants/sourceNames'
+import { CLIENT_ERROR_CODE } from '../constants/statuseCodes'
 import { IUser } from '../types/users'
+import {
+  getCreatedUser,
+  getImagesFromRawFile,
+  getUpdatedUser,
+} from '../utils/dataProvider'
 
 const httpClient = fetchUtils.fetchJson
 
@@ -30,8 +37,41 @@ export default {
       `/admin/one?id=${params.id}&category=${resource}`
     )
 
+    if (resource === USERS_SOURCE_NAME) {
+      return {
+        data,
+      }
+    }
+
+    const isNew = data.isNew ? ['new'] : []
+    const isBestseller = data.isBestseller ? ['bestseller'] : []
+
+    if (Object.values(data.sizes).length) {
+      let sizes: string[] = []
+
+      Object.entries(data.sizes).forEach(([key, value]) => {
+        if (value) {
+          sizes.push(key)
+        }
+      })
+
+      return {
+        data: {
+          ...data,
+          sizes,
+          isNew,
+          isBestseller,
+        },
+      }
+    }
+
     return {
-      data,
+      data: {
+        ...data,
+        sizes: [],
+        isNew,
+        isBestseller,
+      },
     }
   },
 
@@ -56,10 +96,10 @@ export default {
       }),
     }
     const url = `/${resource}?${stringify(query)}`
-    const { json, headers } = await httpClient(url)
+    const { json } = await httpClient(url)
     return {
       data: json,
-      total: parseInt(headers.get('content-range').split('/').pop(), 10),
+      total: 0,
     }
   },
 
@@ -67,22 +107,101 @@ export default {
     if (resource === USERS_SOURCE_NAME) {
       const user = await getCreatedUser(params.data as IUser)
 
-      return
+      if (user.status === CLIENT_ERROR_CODE) {
+        return Promise.reject(new HttpError(user.message, CLIENT_ERROR_CODE))
+      }
+
+      return {
+        data: user.newUser,
+      }
     }
-    const { json } = await httpClient(`/${resource}`, {
-      method: 'POST',
-      body: JSON.stringify(params.data),
+
+    const sizes = {} as { [index: string]: string }
+    let newImages = null
+
+    if (params.data.images.every((img: IUser['image']) => img.src)) {
+      newImages = await getImagesFromRawFile(params.data.images)
+    }
+
+    if (params.data.sizes) {
+      SIZES_LIST.forEach(
+        (size) => (sizes[size] = params.data.sizes.includes(size))
+      )
+    }
+
+    const { data } = await api.post('/admin/add-product', {
+      ...params.data,
+      category: resource,
+      _id: params.data._id,
+      sizes,
+      images: newImages || params.data.images,
+      isNew: !!params.data.isNew?.length,
+      isBestseller: !!params.data.isBestseller?.length,
     })
-    return { data: json }
+
+    return {
+      data: {
+        ...data.newItem,
+        sizes: params.data.sizes,
+        isNew: params.data.isNew,
+        isBestseller: params.data.isBestseller,
+      },
+    }
   },
 
   update: async (resource, params) => {
-    const url = `/${resource}/${params.id}`
-    const { json } = await httpClient(url, {
-      method: 'PUT',
-      body: JSON.stringify(params.data),
+    if (resource === USERS_SOURCE_NAME) {
+      const user = await getUpdatedUser(params.data as IUser)
+
+      if (user.status === CLIENT_ERROR_CODE) {
+        return Promise.reject(new HttpError(user.message, CLIENT_ERROR_CODE))
+      }
+
+      return {
+        data: user.getUpdatedUser,
+      }
+    }
+
+    const sizes = {} as { [index: string]: string }
+    let newImages: { dataUrl: string; title: string }[] = []
+
+    const rawImages = params.data.images.filter(
+      (img: { rawFile?: File }) => img.rawFile
+    )
+
+    const oldImages = params.data.images.filter(
+      (img: { url?: string }) => img.url
+    )
+
+    if (rawImages.length) {
+      newImages = await getImagesFromRawFile(rawImages)
+    }
+
+    if (params.data.sizes) {
+      SIZES_LIST.forEach(
+        (size) => (sizes[size] = params.data.sizes.includes(size))
+      )
+    }
+
+    const { data } = await api.post('/admin/edit-product', {
+      ...params.data,
+      category: resource,
+      _id: params.data._id,
+      sizes,
+      newImages,
+      oldImages,
+      isNew: !!params.data.isNew?.length,
+      isBestseller: !!params.data.isBestseller?.length,
     })
-    return { data: json }
+
+    return {
+      data: {
+        ...data.updatedItem,
+        sizes: params.data.sizes,
+        isNew: params.data.isNew,
+        isBestseller: params.data.isBestseller,
+      },
+    }
   },
 
   updateMany: async (resource, params) => {

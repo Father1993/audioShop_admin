@@ -1,44 +1,26 @@
 // eslint-disable-next-line no-unused-vars
+import './index.css'
+
+import React from 'react'
 import {
+  DeleteButton,
+  ImageField,
+  RichTextField,
   Show,
   SimpleShowLayout,
   TextField,
-  RichTextField,
-  ImageField,
-  DeleteButton,
-  NumberField,
-  BooleanField,
-  ArrayField,
-} from "react-admin";
-import "./index.css";
+} from 'react-admin'
 
-export const ProductShow = () => {
-  return (
-    <Show>
-      <SimpleShowLayout>
-        <div className="show-actions">
-          <DeleteButton />
-        </div>
-        <ArrayField source="images">
-          <ImageField source="url" title="title" />
-        </ArrayField>
-        <TextField source="name" />
-        <TextField source="category" />
-        <TextField source="type" />
-        <TextField source="companyName" />
-        <TextField source="model" />
-        <NumberField source="price" />
-        <TextField source="productSizes" />
-        <RichTextField source="description" />
-        <TextField source="installationType" />
-        <TextField source="collections" />
-        <TextField source="inStock" />
-        <BooleanField source="isBestseller" />
-        <BooleanField source="isNew" />
-        <NumberField source="popularity" />
-        <TextField source="vendorCode" />
-        <TextField source="characteristics" />
-      </SimpleShowLayout>
-    </Show>
-  );
-};
+export const ProductShow = () => (
+  <Show>
+    <SimpleShowLayout>
+      <div className='show-actions'>
+        <DeleteButton />
+      </div>
+      <ImageField source='images' src='url' title='desc' />
+      <TextField source='name' />
+      <TextField source='category' />
+      <RichTextField source='description' />
+    </SimpleShowLayout>
+  </Show>
+)
