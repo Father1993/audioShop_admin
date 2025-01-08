@@ -2,10 +2,15 @@ import { stringify } from 'query-string'
 import { DataProvider, fetchUtils, HttpError } from 'react-admin'
 
 import api from '../api/apiInstance'
+import { SIZES_LIST } from '../constants/goods'
 import { USERS_SOURCE_NAME } from '../constants/sourceNames'
 import { CLIENT_ERROR_CODE } from '../constants/statuseCodes'
 import { IUser } from '../types/users'
-import { getCreatedUser, getUpdatedUser } from '../utils/dataProvider'
+import {
+  getCreatedUser,
+  getImagesFromRawFile,
+  getUpdatedUser,
+} from '../utils/dataProvider'
 
 const httpClient = fetchUtils.fetchJson
 
@@ -58,10 +63,10 @@ export default {
       }),
     }
     const url = `/${resource}?${stringify(query)}`
-    const { json, headers } = await httpClient(url)
+    const { json } = await httpClient(url)
     return {
       data: json,
-      total: parseInt(headers.get('content-range').split('/').pop(), 10),
+      total: 0,
     }
   },
 
@@ -77,11 +82,38 @@ export default {
         data: user.newUser,
       }
     }
-    const { json } = await httpClient(`/${resource}`, {
-      method: 'POST',
-      body: JSON.stringify(params.data),
+
+    const sizes = {} as { [index: string]: string }
+    let newImages = null
+
+    if (params.data.images.every((img: IUser['image']) => img.src)) {
+      newImages = await getImagesFromRawFile(params.data.images)
+    }
+
+    if (params.data.sizes) {
+      SIZES_LIST.forEach(
+        (size) => (sizes[size] = params.data.sizes.includes(size))
+      )
+    }
+
+    const { data } = await api.post('/admin/add-product', {
+      ...params.data,
+      category: resource,
+      _id: params.data._id,
+      sizes,
+      images: newImages || params.data.images,
+      isNew: !!params.data.isNew?.length,
+      isBestseller: !!params.data.isBestseller?.length,
     })
-    return { data: json }
+
+    return {
+      data: {
+        ...data.newItem,
+        sizes: params.data.sizes,
+        isNew: params.data.isNew,
+        isBestseller: params.data.isBestseller,
+      },
+    }
   },
 
   update: async (resource, params) => {

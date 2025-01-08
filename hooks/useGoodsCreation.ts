@@ -14,7 +14,7 @@ export const useGoodsCreation = (types: { id: number; name: string }[]) => {
   }
 
   const maxImagesCount = () => (images: { rawFile: File }[]) => {
-    if (images.length > 4) {
+    if (images?.length > 4) {
       return 'Максимальное кол--во картинок 4'
     }
   }
