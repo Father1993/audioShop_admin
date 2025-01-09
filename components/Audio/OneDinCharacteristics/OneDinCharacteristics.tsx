@@ -1,19 +1,12 @@
 import '../index.css'
 
-import { required, SelectInput } from 'react-admin'
+import { CheckboxGroupInput, required, SelectInput } from 'react-admin'
 
 import {
-  GOODS_CLASPS,
-  GOODS_COLLARS,
-  GOODS_COLORS,
-  GOODS_COMPOSITIONS,
-  GOODS_DECORS,
-  GOODS_FABRIC_TYPES,
-  GOODS_FEATURES,
-  GOODS_PRINT,
-  GOODS_SEASONS,
-  GOODS_SILHOUETTE,
-  GOODS_SLEEVES,
+  AUDIO_FEATURES,
+  COLLECTIONS,
+  COMPANY_NAMES,
+  INSTALLATION_TYPES,
 } from '../../../constants/audioCharacteristics'
 
 export const OneDinCharacteristics = () => (
@@ -21,95 +14,32 @@ export const OneDinCharacteristics = () => (
     <div className='block'>
       <SelectInput
         className='block__select'
-        choices={GOODS_COLORS}
-        source='characteristics.color'
+        choices={COMPANY_NAMES}
+        source='characteristics.companyName'
         validate={[required()]}
-        defaultValue={GOODS_COLORS[0].name}
-        optionValue='name'
-      />
-
-      <SelectInput
-        className='block__select'
-        choices={GOODS_COLLARS}
-        source='characteristics.collar'
-        validate={[required()]}
-        defaultValue={GOODS_COLLARS[0].name}
         optionValue='name'
       />
       <SelectInput
         className='block__select'
-        choices={GOODS_SILHOUETTE}
-        source='characteristics.silhouette'
+        choices={INSTALLATION_TYPES}
+        source='characteristics.installationType'
         validate={[required()]}
-        defaultValue={GOODS_SILHOUETTE[0].name}
-        optionValue='name'
-      />
-      <SelectInput
-        className='block__select'
-        choices={GOODS_PRINT}
-        source='characteristics.print'
-        validate={[required()]}
-        defaultValue={GOODS_PRINT[0].name}
         optionValue='name'
       />
     </div>
     <div className='block'>
-      <SelectInput
-        className='block__select'
-        choices={GOODS_DECORS}
-        source='characteristics.decor'
-        validate={[required()]}
-        defaultValue={GOODS_DECORS[0].name}
-        optionValue='name'
-      />
-      <SelectInput
-        className='block__select'
-        choices={GOODS_COMPOSITIONS}
-        source='characteristics.composition'
-        validate={[required()]}
-        defaultValue={GOODS_COMPOSITIONS[0].name}
-        optionValue='name'
-      />
-      <SelectInput
-        className='block__select'
-        choices={GOODS_SEASONS}
-        source='characteristics.season'
-        validate={[required()]}
-        defaultValue={GOODS_SEASONS[0].name}
-        optionValue='name'
-      />
-      <SelectInput
-        className='block__select'
-        choices={GOODS_CLASPS}
-        source='characteristics.clasp'
-        validate={[required()]}
-        defaultValue={GOODS_CLASPS[0].name}
-        optionValue='name'
-      />
-    </div>
-    <div className='block'>
-      <SelectInput
-        className='block__select'
-        choices={GOODS_FEATURES}
+      <CheckboxGroupInput
         source='characteristics.features'
-        validate={[required()]}
-        defaultValue={GOODS_FEATURES[0].name}
+        choices={AUDIO_FEATURES}
         optionValue='name'
       />
+    </div>
+    <div className='block'>
       <SelectInput
         className='block__select'
-        choices={GOODS_FABRIC_TYPES}
-        source='characteristics.fabricType'
+        choices={COLLECTIONS}
+        source='characteristics.collections'
         validate={[required()]}
-        defaultValue={GOODS_FABRIC_TYPES[0].name}
-        optionValue='name'
-      />
-      <SelectInput
-        className='block__select'
-        choices={GOODS_SLEEVES}
-        source='characteristics.sleeve'
-        validate={[required()]}
-        defaultValue={GOODS_SLEEVES[0].name}
         optionValue='name'
       />
     </div>

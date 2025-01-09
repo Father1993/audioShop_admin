@@ -240,3 +240,72 @@ export const SOUVENIR_WEIGHTS = [
   { id: 4, name: '200 g' },
   { id: 5, name: '250 g' },
 ]
+
+// NEW FOR AUDIO
+export const AUDIO_FEATURES = [
+  { id: 1, name: 'Bluetooth' },
+  { id: 2, name: 'USB' },
+  { id: 3, name: 'AUX' },
+  { id: 4, name: 'FLAC' },
+  { id: 5, name: 'Equalizer' },
+  { id: 6, name: 'Mp3' },
+  { id: 7, name: 'CD' },
+  { id: 8, name: 'IPhone' },
+  { id: 9, name: 'CarPlay' },
+  { id: 10, name: 'Apple' },
+  { id: 11, name: 'Android' },
+]
+
+export const INSTALLATION_TYPES = [
+  { id: 1, name: 'Универсальный' },
+  { id: 2, name: 'Toyota' },
+  { id: 3, name: 'Nissan' },
+  { id: 4, name: 'Mazda' },
+  { id: 5, name: 'Honda' },
+  { id: 6, name: 'MMC' },
+  { id: 7, name: 'Subaru' },
+  { id: 8, name: 'Suzuki' },
+  { id: 9, name: 'Daihatsu' },
+  { id: 10, name: 'Lexus' },
+  { id: 11, name: 'Infiniti' },
+  { id: 12, name: 'Isuzu' },
+  { id: 13, name: 'Acura' },
+]
+
+export const COLLECTIONS = [
+  { id: 1, name: 'Premium' },
+  { id: 2, name: 'Sport' },
+  { id: 3, name: 'Classic' },
+  { id: 4, name: 'Luxury' },
+  { id: 5, name: 'Бюджетный' },
+  { id: 6, name: 'Из Японии' },
+]
+
+export const COMPANY_NAMES = [
+  'Panasonic',
+  'Mitsubishi',
+  'Alpine',
+  'Pioneer',
+  'Kenwood',
+  'Sony',
+  'JBL',
+  'Bose',
+  'Harman Kardon',
+  'Infinity',
+  'Rockford Fosgate',
+  'Focal',
+  'Kicker',
+  'Clarion',
+  'JVC',
+  'Audison',
+  'Hertz',
+  'Polk Audio',
+  'Memphis Audio',
+  'MTX Audio',
+  'Morel',
+  'Dynaudio',
+  'Bang & Olufsen (B&O)',
+  'Blaupunkt',
+  'Nakamichi',
+  'Soundstream',
+]

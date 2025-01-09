@@ -14,11 +14,11 @@ import {
 import { OneDinCharacteristics } from '../../../components/Audio/OneDinCharacteristics/OneDinCharacteristics'
 import { TwoDinCharacteristics } from '../../../components/Audio/TwoDinCharacteristics/TwoDinCharacteristics'
 import {
+  AUDIO_SIZES,
   AUDIO_TYPES,
   GOODS_IS_BESTSELLER,
   GOODS_IS_NEW,
   GOODS_POPULARITY,
-  GOODS_SIZES,
 } from '../../../constants/goodsTypes'
 import { IBaseFormProps } from '../../../types/goods'
 import { allowedImageExtensions } from '../../../utils/validation'
@@ -74,7 +74,7 @@ export const AudioForm = ({
         />
         <CheckboxGroupInput
           source='sizes'
-          choices={GOODS_SIZES}
+          choices={AUDIO_SIZES}
           optionValue='name'
         />
         <CheckboxGroupInput
