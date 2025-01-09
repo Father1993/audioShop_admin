@@ -12,19 +12,17 @@ import {
 } from 'react-admin'
 
 import {
-  ACCESSORIES_TYPES,
   GOODS_IS_BESTSELLER,
   GOODS_IS_NEW,
   GOODS_POPULARITY,
-  GOODS_SIZES,
+  SUBWOOFERS_TYPES,
 } from '../../../constants/goodsTypes'
 import { IBaseFormProps } from '../../../types/goods'
 import { allowedImageExtensions } from '../../../utils/validation'
-import ChargerChar from '../ChargerChar/ChargerChar'
-import FasteningChar from '../FasteningChar/FasteningChar'
-import VideoRecorderChar from '../VideoRecorderChar/VideoRecorderChar'
+import ActiveChar from '../ActiveChar/ActiveChar'
+import PassiveChar from '../PassiveChar/PassiveChar'
 
-export const AccessoryForm = ({
+export const SubwoofersForm = ({
   type,
   handleSelectType,
   maxImagesCount,
@@ -34,7 +32,7 @@ export const AccessoryForm = ({
       <div className='block'>
         <SelectInput
           className='block__select'
-          choices={ACCESSORIES_TYPES}
+          choices={SUBWOOFERS_TYPES}
           source='type'
           validate={[required()]}
           onChange={handleSelectType}
@@ -73,13 +71,6 @@ export const AccessoryForm = ({
           validate={[required()]}
           optionValue='name'
         />
-        {type !== ACCESSORIES_TYPES[2].name && (
-          <CheckboxGroupInput
-            source='sizes'
-            choices={GOODS_SIZES}
-            optionValue='name'
-          />
-        )}
         <CheckboxGroupInput
           source='isNew'
           choices={GOODS_IS_NEW}
@@ -105,9 +96,8 @@ export const AccessoryForm = ({
       </ImageInput>
     </TabbedForm.Tab>
     <TabbedForm.Tab label='Характеристики'>
-      {type === ACCESSORIES_TYPES[0].name && <VideoRecorderChar />}
-      {type === ACCESSORIES_TYPES[1].name && <ChargerChar />}
-      {type === ACCESSORIES_TYPES[2].name && <FasteningChar />}
+      {type === SUBWOOFERS_TYPES[0].name && <ActiveChar />}
+      {type === SUBWOOFERS_TYPES[1].name && <PassiveChar />}
     </TabbedForm.Tab>
   </TabbedForm>
 )
