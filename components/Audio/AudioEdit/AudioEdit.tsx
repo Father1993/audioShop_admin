@@ -1,4 +1,3 @@
-import React from 'react'
 import { Edit } from 'react-admin'
 
 import { AUDIO_SOURCE_NAME } from '../../../constants/sourceNames'
