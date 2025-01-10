@@ -11,8 +11,12 @@ import {
   TextInput,
 } from 'react-admin'
 
-import { OneDinCharacteristics } from '../../../components/Audio/OneDinCharacteristics/OneDinCharacteristics'
-import { TwoDinCharacteristics } from '../../../components/Audio/TwoDinCharacteristics/TwoDinCharacteristics'
+import {
+  AUDIO_FEATURES,
+  COMPANY_NAMES,
+  GOODS_COLLECTIONS,
+  INSTALLATION_TYPES,
+} from '../../../constants/allCharacteristics'
 import {
   AUDIO_SIZES,
   AUDIO_TYPES,
@@ -23,38 +27,40 @@ import {
 import { IBaseFormProps } from '../../../types/goods'
 import { allowedImageExtensions } from '../../../utils/validation'
 
-export const AudioForm = ({
-  type,
-  handleSelectType,
-  maxImagesCount,
-}: IBaseFormProps) => (
+export const AudioForm = ({ maxImagesCount }: IBaseFormProps) => (
   <TabbedForm>
     <TabbedForm.Tab label='Основная информация'>
       <div className='block'>
+        <TextInput
+          className='block__select'
+          source='name'
+          validate={[required()]}
+          defaultValue={'Плеер'}
+        />
         <SelectInput
           className='block__select'
           choices={AUDIO_TYPES}
           source='type'
           validate={[required()]}
-          onChange={handleSelectType}
           optionValue='name'
         />
-        <NumberInput
-          min={0}
+        <SelectInput
           className='block__select'
-          source='price'
+          choices={AUDIO_SIZES}
+          source='productSizes'
           validate={[required()]}
+          optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={COMPANY_NAMES}
+          source='companyName'
+          validate={[required()]}
+          optionValue='name'
         />
         <TextInput
           className='block__select'
-          source='name'
-          validate={[required()]}
-          resettable
-        />
-        <NumberInput
-          min={0}
-          className='block__select'
-          source='inStock'
+          source='model'
           validate={[required()]}
         />
         <TextInput
@@ -63,8 +69,28 @@ export const AudioForm = ({
           multiline
           resettable
         />
+        <NumberInput
+          min={0}
+          className='block__select'
+          source='price'
+          validate={[required()]}
+        />
       </div>
       <div className='block-right'>
+        <SelectInput
+          className='block__select'
+          choices={INSTALLATION_TYPES}
+          source='installationType'
+          validate={[required()]}
+          optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={GOODS_COLLECTIONS}
+          source='collections'
+          validate={[required()]}
+          optionValue='name'
+        />
         <SelectInput
           className='block__select'
           choices={GOODS_POPULARITY}
@@ -72,20 +98,21 @@ export const AudioForm = ({
           validate={[required()]}
           optionValue='name'
         />
-        <CheckboxGroupInput
-          source='sizes'
-          choices={AUDIO_SIZES}
-          optionValue='name'
+        <NumberInput
+          min={0}
+          className='block__select'
+          source='inStock'
+          validate={[required()]}
         />
-        <CheckboxGroupInput
-          source='isNew'
-          choices={GOODS_IS_NEW}
-          optionValue='name'
+        <TextInput
+          className='block__select'
+          source='vendorCode'
+          validate={[required()]}
         />
+        <CheckboxGroupInput source='isNew' choices={GOODS_IS_NEW} />
         <CheckboxGroupInput
           source='isBestseller'
           choices={GOODS_IS_BESTSELLER}
-          optionValue='name'
         />
       </div>
       <ImageInput
@@ -102,8 +129,13 @@ export const AudioForm = ({
       </ImageInput>
     </TabbedForm.Tab>
     <TabbedForm.Tab label='Характеристики'>
-      {type === AUDIO_TYPES[0].name && <OneDinCharacteristics />}
-      {type === AUDIO_TYPES[1].name && <TwoDinCharacteristics />}
+      <div className='block'>
+        <CheckboxGroupInput
+          source='characteristics.features'
+          choices={AUDIO_FEATURES}
+          optionValue='name'
+        />
+      </div>
     </TabbedForm.Tab>
   </TabbedForm>
 )

@@ -12,6 +12,12 @@ import {
 } from 'react-admin'
 
 import {
+  COMPANY_NAMES,
+  GOODS_COLLECTIONS,
+  SPEAKERS_POWER,
+  SPEAKERS_SIZES,
+} from '../../../constants/allCharacteristics'
+import {
   GOODS_IS_BESTSELLER,
   GOODS_IS_NEW,
   GOODS_POPULARITY,
@@ -19,22 +25,49 @@ import {
 } from '../../../constants/goodsTypes'
 import { IBaseFormProps } from '../../../types/goods'
 import { allowedImageExtensions } from '../../../utils/validation'
-import SpeakersChar from '../SpeakersChar/SpeakersChar'
 
-export const SpeakersForm = ({
-  handleSelectType,
-  maxImagesCount,
-}: IBaseFormProps) => (
+export const SpeakersForm = ({ maxImagesCount }: IBaseFormProps) => (
   <TabbedForm>
     <TabbedForm.Tab label='Основная информация'>
       <div className='block'>
+        <TextInput
+          className='block__select'
+          source='name'
+          validate={[required()]}
+          defaultValue={'Динамики'}
+          resettable
+        />
         <SelectInput
           className='block__select'
           choices={SPEAKERS_TYPES}
           source='type'
           validate={[required()]}
-          onChange={handleSelectType}
           optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={COMPANY_NAMES}
+          source='companyName'
+          validate={[required()]}
+          optionValue='name'
+        />
+        <TextInput
+          className='block__select'
+          source='model'
+          validate={[required()]}
+        />
+        <SelectInput
+          className='block__select'
+          choices={SPEAKERS_SIZES}
+          source='productSizes'
+          validate={[required()]}
+          optionValue='name'
+        />
+        <TextInput
+          source='description'
+          validate={[required()]}
+          multiline
+          resettable
         />
         <NumberInput
           min={0}
@@ -42,11 +75,21 @@ export const SpeakersForm = ({
           source='price'
           validate={[required()]}
         />
-        <TextInput
+      </div>
+      <div className='block-right'>
+        <SelectInput
           className='block__select'
-          source='name'
+          choices={GOODS_COLLECTIONS}
+          source='collections'
           validate={[required()]}
-          resettable
+          optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={GOODS_POPULARITY}
+          source='popularity'
+          validate={[required()]}
+          optionValue='name'
         />
         <NumberInput
           min={0}
@@ -55,29 +98,14 @@ export const SpeakersForm = ({
           validate={[required()]}
         />
         <TextInput
-          source='description'
-          validate={[required()]}
-          multiline
-          resettable
-        />
-      </div>
-      <div className='block-right'>
-        <SelectInput
           className='block__select'
-          choices={GOODS_POPULARITY}
-          source='popularity'
+          source='vendorCode'
           validate={[required()]}
-          optionValue='name'
         />
-        <CheckboxGroupInput
-          source='isNew'
-          choices={GOODS_IS_NEW}
-          optionValue='name'
-        />
+        <CheckboxGroupInput source='isNew' choices={GOODS_IS_NEW} />
         <CheckboxGroupInput
           source='isBestseller'
           choices={GOODS_IS_BESTSELLER}
-          optionValue='name'
         />
       </div>
       <ImageInput
@@ -94,7 +122,15 @@ export const SpeakersForm = ({
       </ImageInput>
     </TabbedForm.Tab>
     <TabbedForm.Tab label='Характеристики'>
-      <SpeakersChar />
+      <div className='block'>
+        <SelectInput
+          className='block__select'
+          choices={SPEAKERS_POWER}
+          source='characteristics.speakersPower'
+          validate={[required()]}
+          optionValue='name'
+        />
+      </div>
     </TabbedForm.Tab>
   </TabbedForm>
 )
