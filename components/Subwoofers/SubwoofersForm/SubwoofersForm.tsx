@@ -12,6 +12,14 @@ import {
 } from 'react-admin'
 
 import {
+  COMPANY_NAMES,
+  GOODS_COLLECTIONS,
+  SUBWOOFER_IMPEDANCE,
+  SUBWOOFER_MOUNTING_DEPTH,
+  SUBWOOFER_POWER,
+  SUBWOOFER_SIZES,
+} from '../../../constants/allCharacteristics'
+import {
   GOODS_IS_BESTSELLER,
   GOODS_IS_NEW,
   GOODS_POPULARITY,
@@ -19,17 +27,21 @@ import {
 } from '../../../constants/goodsTypes'
 import { IBaseFormProps } from '../../../types/goods'
 import { allowedImageExtensions } from '../../../utils/validation'
-import ActiveChar from '../ActiveChar/ActiveChar'
-import PassiveChar from '../PassiveChar/PassiveChar'
 
 export const SubwoofersForm = ({
-  type,
   handleSelectType,
   maxImagesCount,
 }: IBaseFormProps) => (
   <TabbedForm>
     <TabbedForm.Tab label='Основная информация'>
       <div className='block'>
+        <TextInput
+          className='block__select'
+          source='name'
+          defaultValue={'Сабвуфер'}
+          validate={[required()]}
+          resettable
+        />
         <SelectInput
           className='block__select'
           choices={SUBWOOFERS_TYPES}
@@ -38,17 +50,52 @@ export const SubwoofersForm = ({
           onChange={handleSelectType}
           optionValue='name'
         />
+        <SelectInput
+          className='block__select'
+          choices={COMPANY_NAMES}
+          source='companyName'
+          validate={[required()]}
+          optionValue='name'
+        />
+        <TextInput
+          className='block__select'
+          source='model'
+          validate={[required()]}
+        />
+        <SelectInput
+          className='block__select'
+          choices={SUBWOOFER_SIZES}
+          source='productSizes'
+          validate={[required()]}
+          optionValue='name'
+        />
+        <TextInput
+          source='description'
+          validate={[required()]}
+          multiline
+          resettable
+        />
         <NumberInput
           min={0}
           className='block__select'
           source='price'
           validate={[required()]}
         />
-        <TextInput
+      </div>
+      <div className='block-right'>
+        <SelectInput
           className='block__select'
-          source='name'
+          choices={GOODS_COLLECTIONS}
+          source='collections'
           validate={[required()]}
-          resettable
+          optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={GOODS_POPULARITY}
+          source='popularity'
+          validate={[required()]}
+          optionValue='name'
         />
         <NumberInput
           min={0}
@@ -57,29 +104,14 @@ export const SubwoofersForm = ({
           validate={[required()]}
         />
         <TextInput
-          source='description'
-          validate={[required()]}
-          multiline
-          resettable
-        />
-      </div>
-      <div className='block-right'>
-        <SelectInput
           className='block__select'
-          choices={GOODS_POPULARITY}
-          source='popularity'
+          source='vendorCode'
           validate={[required()]}
-          optionValue='name'
         />
-        <CheckboxGroupInput
-          source='isNew'
-          choices={GOODS_IS_NEW}
-          optionValue='name'
-        />
+        <CheckboxGroupInput source='isNew' choices={GOODS_IS_NEW} />
         <CheckboxGroupInput
           source='isBestseller'
           choices={GOODS_IS_BESTSELLER}
-          optionValue='name'
         />
       </div>
       <ImageInput
@@ -96,8 +128,27 @@ export const SubwoofersForm = ({
       </ImageInput>
     </TabbedForm.Tab>
     <TabbedForm.Tab label='Характеристики'>
-      {type === SUBWOOFERS_TYPES[0].name && <ActiveChar />}
-      {type === SUBWOOFERS_TYPES[1].name && <PassiveChar />}
+      <div className='block'>
+        <SelectInput
+          className='block__select'
+          choices={SUBWOOFER_POWER}
+          source='characteristics.power'
+          validate={[required()]}
+          optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={SUBWOOFER_IMPEDANCE}
+          source='characteristics.impedances'
+          optionValue='name'
+        />
+        <SelectInput
+          className='block__select'
+          choices={SUBWOOFER_MOUNTING_DEPTH}
+          source='characteristics.mountingSize'
+          optionValue='name'
+        />
+      </div>
     </TabbedForm.Tab>
   </TabbedForm>
 )

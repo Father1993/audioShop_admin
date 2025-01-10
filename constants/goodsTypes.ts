@@ -34,6 +34,11 @@ export const GOODS_SIZES = [
   { id: 2, name: '178x100mm' },
 ]
 
+export const AUDIO_SIZES = [
+  { id: 1, name: '178x50mm' }, // для 1din
+  { id: 2, name: '178x100mm' }, // для 2din
+]
+
 export const GOODS_IS_NEW = [{ id: 1, name: 'new' }]
 
 export const GOODS_IS_BESTSELLER = [{ id: 2, name: 'bestseller' }]
