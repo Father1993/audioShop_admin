@@ -7,6 +7,7 @@ export const ACCESSORIES_TYPES = [
   { id: 1, name: 'video-recorder' },
   { id: 2, name: 'charger' },
   { id: 3, name: 'fastening' },
+  { id: 4, name: 'adapters' },
 ]
 
 export const SUBWOOFERS_TYPES = [

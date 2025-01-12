@@ -12,6 +12,8 @@ import {
 } from 'react-admin'
 
 import {
+  ACCESSORIES_ADAPTERS_TYPES_IN,
+  ACCESSORIES_ADAPTERS_TYPES_OUT,
   ACCESSORIES_VOLTAGE,
   GOODS_COLLECTIONS,
 } from '../../../constants/allCharacteristics'
@@ -116,7 +118,16 @@ export const AccessoryForm = ({ maxImagesCount }: IBaseFormProps) => (
           className='block__select'
           choices={ACCESSORIES_VOLTAGE}
           source='characteristics.voltage'
-          validate={[required()]}
+          optionValue='name'
+        />
+        <CheckboxGroupInput
+          source='characteristics.in'
+          choices={ACCESSORIES_ADAPTERS_TYPES_IN}
+          optionValue='name'
+        />
+        <CheckboxGroupInput
+          source='characteristics.out'
+          choices={ACCESSORIES_ADAPTERS_TYPES_OUT}
           optionValue='name'
         />
       </div>
